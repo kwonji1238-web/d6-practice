@@ -76,9 +76,9 @@
 <script>
   // 🔌 브랜치별 서비스 목록: 파일 이름만 바꾸면 보이는 화면이 바뀐다
   const SERVICES = [
-    { branch: "feature/weather-poster", name: "날씨 무드 포스터", file: "weather-poster.html" },
-    { branch: "feature/iss-clock",      name: "ISS 궤도 시계",    file: "iss-clock.html" },
-    { branch: "feature/cafe-location",  name: "성북구 카페 현황", file: "cafe-location.html" }
+    { branch: "feature/weather-poster", name: "날씨 무드 포스터", file: "d6-web/weather-poster.html" },
+    { branch: "feature/iss-clock",      name: "ISS 궤도 시계",    file: "d6-web/iss-clock.html" },
+    { branch: "feature/cafe-location",  name: "성북구 카페 현황", file: "d6-web/cafe-location.html" }
   ];
 
   const tabs = document.getElementById("tabs");
@@ -90,7 +90,7 @@
     frame.src = s.file;
     open.href = s.file;
     tabs.querySelectorAll("button").forEach((b, j) => b.setAttribute("aria-selected", String(i === j)));
-    location.hash = s.file.replace(".html", "");
+    location.hash = s.file.replace("d6-web/", "").replace(".html", "");
   }
 
   SERVICES.forEach((s, i) => {
@@ -102,7 +102,7 @@
     tabs.appendChild(b);
   });
 
-  const start = SERVICES.findIndex(s => "#" + s.file.replace(".html", "") === location.hash);
+  const start = SERVICES.findIndex(s => "#" + s.file.replace("d6-web/", "").replace(".html", "") === location.hash);
   show(start < 0 ? 0 : start);
 </script>
 </body>
