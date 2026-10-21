@@ -3,17 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>D6 브랜치별 서비스 보기</title>
+<title>D-6 Service</title>
 <style>
   /* 반응형: 기본 360px 한 열(탭 위, 화면 아래) / 768px+ 탭이 가로 한 줄 / 1100px+ 왼쪽 목록 + 오른쪽 큰 화면 */
+  /* 🎨 참고 사이트(eadem.co)의 색: 흰 바탕 + 따뜻한 갈색 글자 + 크림 면 + 세이지 경계선 */
   :root {
-    --bg: hsl(220 14% 10%);
-    --panel: hsl(220 14% 15%);
-    --line: hsl(220 10% 28%);
-    --ink: hsl(0 0% 96%);
-    --sub: hsl(220 10% 72%);
-    --accent: hsl(165 70% 62%);
-    --accent-ink: hsl(165 60% 8%);
+    --bg: #ffffff;          /* 페이지 바탕 */
+    --cream: #f5f1ee;       /* 카드·면 */
+    --ink: #7d5d24;         /* 글자·선 (흰 바탕 5.9:1, 크림 5.3:1) */
+    --line: #bfbda5;        /* 옅은 경계선 */
+    --on-ink: #f5f1ee;      /* 갈색 면 위 글자 (5.3:1) */
   }
   * { box-sizing: border-box; }
   body {
@@ -21,27 +20,35 @@
     font: 1rem/1.5 Pretendard, "Malgun Gothic", sans-serif;
     min-height: 100vh; display: flex; flex-direction: column;
   }
-  header { padding: 1rem clamp(1rem, 3vw, 2rem) .5rem; }
-  h1 { margin: 0; font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
-  header p { margin: .25rem 0 0; color: var(--sub); }
-  .layout { flex: 1; display: grid; gap: 1rem; padding: .5rem clamp(1rem, 3vw, 2rem) 1.5rem; grid-template-columns: minmax(0, 1fr); }
+  /* 상단 헤더: 웹사이트처럼 위에 고정, 아래 선으로 본문과 나눈다 */
+  header {
+    position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--ink);
+    padding: clamp(.75rem, 2vw, 1.25rem) clamp(1rem, 3vw, 2rem); text-align: center;
+  }
+  h1 {
+    margin: 0; font-weight: 700; text-transform: uppercase;
+    font-size: clamp(1.75rem, 5vw, 3rem); line-height: 1.1; letter-spacing: .08em;
+  }
+  .layout { flex: 1; display: grid; gap: 1rem; padding: clamp(1rem, 3vw, 2rem); grid-template-columns: minmax(0, 1fr); }
   nav { display: flex; flex-direction: column; gap: .5rem; }
   nav button {
-    min-height: 44px; text-align: left; padding: .6rem .9rem; cursor: pointer;
-    background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: .75rem;
-    font: inherit;
+    min-height: 44px; text-align: left; padding: .7rem 1rem; cursor: pointer;
+    background: var(--cream); color: var(--ink); border: 1px solid var(--ink); border-radius: 999px;
+    font: inherit; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    transition: background-color .2s, color .2s;
   }
-  nav button small { display: block; color: var(--sub); overflow-wrap: anywhere; }
-  nav button[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-  nav button[aria-selected="true"] small { color: var(--accent-ink); }
-  nav button:focus-visible, .open:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  nav button small { display: block; font-weight: 400; text-transform: none; letter-spacing: 0; overflow-wrap: anywhere; }
+  nav button:hover { background: var(--line); }
+  nav button[aria-selected="true"] { background: var(--ink); color: var(--on-ink); }
+  nav button:focus-visible, .open:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   .stage { display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
-  .bar { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; justify-content: space-between; color: var(--sub); }
-  .open { color: var(--accent); min-height: 44px; display: inline-flex; align-items: center; }
+  .bar { display: flex; justify-content: flex-end; }
+  .open { color: var(--ink); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; text-decoration: underline; text-underline-offset: .3em; min-height: 44px; display: inline-flex; align-items: center; }
   iframe {
-    width: 100%; border: 1px solid var(--line); border-radius: .75rem; background: #fff;
+    width: 100%; border: 1px solid var(--ink); border-radius: 1rem; background: #fff;
     height: min(80vh, 60rem); min-height: 28rem;
   }
+  @media (prefers-reduced-motion: reduce) { nav button { transition: none; } }
   @media (min-width: 768px) {
     nav { flex-direction: row; }
     nav button { flex: 1; }
@@ -49,23 +56,21 @@
   @media (min-width: 1100px) {
     .layout { grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr); }
     nav { flex-direction: column; align-self: start; }
-    iframe { height: calc(100vh - 11rem); }
+    iframe { height: calc(100vh - 12rem); }
   }
 </style>
 </head>
 <body>
 <header>
-  <h1>D6 브랜치별 서비스 보기</h1>
-  <p>브랜치를 고르면 그 브랜치에서 만든 화면이 아래에 열려요.</p>
+  <h1>D-6 Service</h1>
 </header>
 <div class="layout">
-  <nav id="tabs" role="tablist" aria-label="브랜치 목록"></nav>
+  <nav id="tabs" role="tablist" aria-label="서비스 목록"></nav>
   <section class="stage">
+    <iframe id="frame" title="선택한 서비스 화면"></iframe>
     <div class="bar">
-      <span id="info"></span>
       <a id="open" class="open" target="_blank" rel="noopener">새 탭에서 열기 ↗</a>
     </div>
-    <iframe id="frame" title="선택한 서비스 화면"></iframe>
   </section>
 </div>
 <script>
@@ -78,14 +83,12 @@
 
   const tabs = document.getElementById("tabs");
   const frame = document.getElementById("frame");
-  const info = document.getElementById("info");
   const open = document.getElementById("open");
 
   function show(i) {
     const s = SERVICES[i];
     frame.src = s.file;
     open.href = s.file;
-    info.textContent = s.branch + " · " + s.file;
     tabs.querySelectorAll("button").forEach((b, j) => b.setAttribute("aria-selected", String(i === j)));
     location.hash = s.file.replace(".html", "");
   }
@@ -95,9 +98,6 @@
     b.type = "button";
     b.setAttribute("role", "tab");
     b.textContent = s.name;
-    const small = document.createElement("small");
-    small.textContent = s.branch;
-    b.appendChild(small);
     b.addEventListener("click", () => show(i));
     tabs.appendChild(b);
   });
